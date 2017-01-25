@@ -57,13 +57,11 @@ class AddToCartForm extends ContentEntityForm {
   protected $chainPriceResolver;
 
   /**
-   * The form instance ID.
+   * The form instance IDs of purchased entities.
    *
-   * Numeric counter used to ensure form ID uniqueness.
-   *
-   * @var int
+   * @var array
    */
-  protected static $formInstanceId = 0;
+  protected static $FormInstanceIds = [];
 
   /**
    * The current user.
@@ -99,8 +97,6 @@ class AddToCartForm extends ContentEntityForm {
     $this->storeContext = $store_context;
     $this->chainPriceResolver = $chain_price_resolver;
     $this->currentUser = $current_user;
-
-    self::$formInstanceId++;
   }
 
   /**
@@ -136,9 +132,21 @@ class AddToCartForm extends ContentEntityForm {
     if ($this->operation != 'default') {
       $form_id = $form_id . '_' . $this->operation;
     }
-    $form_id .= '_' . self::$formInstanceId;
+    $id = sha1(serialize($this->entity->getPurchasedEntity()->toArray()));
+    // For the case when on a page 2+ exactly the same purchased entities.
+    while (in_array($id, static::$FormInstanceIds)) {
+      $id = sha1($id . $id);
+    }
+    static::$FormInstanceIds[] = $id;
 
-    return $form_id . '_form';
+    return $form_id . '_' . $id . '_form';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormInstanceIds() {
+    return static::$FormInstanceIds;
   }
 
   /**
