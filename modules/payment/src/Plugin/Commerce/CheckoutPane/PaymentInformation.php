@@ -164,7 +164,7 @@ class PaymentInformation extends CheckoutPaneBase implements ContainerFactoryPlu
           $address[1] = $countries->get($address['country_code'], $locale, $fallbackLocale)->getName();
           $address[2] = implode(' ', [$address['postal_code'], $address['locality'], $address['dependent_locality'], $address['administrative_area']]);
           $address['zzz'] = implode(' ', [$address['given_name'], $address['additional_name'], $address['family_name']]);
-          unset($address['country_code'], $address['given_name'], $address['additional_name'], $address['family_name'], $address['postal_code'], $address['locality'], $address['dependent_locality'], $address['administrative_area']); 
+          unset($address['country_code'], $address['given_name'], $address['additional_name'], $address['family_name'], $address['postal_code'], $address['locality'], $address['dependent_locality'], $address['administrative_area']);
           foreach ($address as $key => $value) {
             if (empty($value)) {
               unset($address[$key]);
@@ -186,34 +186,31 @@ class PaymentInformation extends CheckoutPaneBase implements ContainerFactoryPlu
         }
       }
       if (empty($profile_id)) {
-        $profile = Profile::create([
+        $profile = $this->entityTypeManager->getStorage('profile')->create([
           'uid' => $customer_id,
-          'type' => 'customer',
-        ]);
+           'type' => 'customer',
+         ]);
         // Prevent overwriting existing billing profile.
         $billing_profile ? $this->order->setBillingProfile($profile) : NULL;
         $billing_profile = $profile;
       }
 
-      $form_display = EntityFormDisplay::collectRenderDisplay($billing_profile, 'default');
+      $form_display = \Drupal\Core\Entity\Entity\EntityFormDisplay::collectRenderDisplay($billing_profile, 'default');
       $form_display->buildForm($billing_profile, $pane_form, $form_state);
+      // Remove the details wrapper from the address field.
       if (!empty($pane_form['address']['widget'][0])) {
-        // Remove the details wrapper from the address field.
-        $pane_form['address']['widget'][0]['#type'] = 'container';
-
         // Show only for authenticated user who has at least 1 profile saved.
         if ($customer_id && count($billing_profiles) > 1) {
-          $country_code = $pane_form['address']['widget'][0]['country_code'];
           $pane_form['address']['widget'][0]['billing_profile_id'] = [
             '#type' => "select",
             '#title' => $this->t('Choose from earlier saved information'),
             '#options' => $billing_profiles,
             '#default_value' =>  $billing_profile->id() . '.address_line1',
             '#limit_validation_errors' => [],
-            '#ajax' => $country_code['#ajax'],
-            '#attributes' => $country_code['#attributes'],
+            '#ajax' => $pane_form['payment_method']['#ajax'],
+            '#attributes' => $pane_form['address']['#attributes'],
             // Place it exactly above the country code select list.
-            '#weight' => --$country_code['#weight'],
+            '#weight' => --$pane_form['address']['#weight'],
           ];
         }
       }
