@@ -154,8 +154,12 @@ class ProductVariationAttributesWidget extends ProductVariationWidgetBase implem
         'class' => ['attribute-widgets'],
       ],
     ];
+    // To reduce the ID cut out base form ID from the form ID.
+    $base_id = $form_state->getFormObject()->getBaseFormId();
+    $id = strtr($form_state->getFormObject()->getFormId(), [$base_id => '']);
     foreach ($this->getAttributeInfo($selected_variation, $variations) as $field_name => $attribute) {
       $element['attributes'][$field_name] = [
+        '#id' => 'edit-purchased-entity-0-attributes-' . Html::getClass($field_name . $id),
         '#type' => $attribute['element_type'],
         '#title' => $attribute['title'],
         '#options' => $attribute['values'],

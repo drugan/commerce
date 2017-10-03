@@ -119,8 +119,12 @@ class ProductVariationTitleWidget extends ProductVariationWidgetBase implements 
     foreach ($variations as $option) {
       $variation_options[$option->id()] = $option->label();
     }
+    // To reduce the ID cut out base form ID from the form ID.
+    $base_id = $form_state->getFormObject()->getBaseFormId();
+    $id = Html::getClass(strtr($form_state->getFormObject()->getFormId(), [$base_id => '']));
     $element['variation'] = [
       '#type' => 'select',
+      '#id' => "edit-purchased-entity-0{$id}",
       '#title' => $this->getSetting('label_text'),
       '#options' => $variation_options,
       '#required' => TRUE,
