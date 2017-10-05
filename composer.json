@@ -7,7 +7,7 @@
     "repositories": {
         "commerce_multistore": {
             "type": "vcs",
-            "url": "https://github.com/drugan/commerce_multistore.git"
+            "url": "https://github.com/drugan/commerce_multistore"
         }
     },
     "require": {
@@ -18,9 +18,7 @@
         "drupal/inline_entity_form": "~1.0",
         "drupal/profile": "~1.0",
         "drupal/state_machine": "~1.0",
-        "commerceguys/intl": "~0.7"
-    },
-    "require-dev": {
+        "commerceguys/intl": "~0.7",
         "drupal/commerce_multistore": "dev-master"
     },
     "minimum-stability": "dev"
