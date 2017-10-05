@@ -21,7 +21,7 @@
         "commerceguys/intl": "~0.7"
     },
     "require-dev": {
-        "drugan/commerce_multistore": "dev-master"
+        "drupal/commerce_multistore": "dev-master"
     },
     "minimum-stability": "dev"
 }
