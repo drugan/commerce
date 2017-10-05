@@ -19,6 +19,7 @@ class UninstallTest extends BrowserTestBase {
     'commerce_price',
     'commerce_log',
     'commerce_store',
+    'commerce_multistore',
     'commerce_product',
     'commerce_order',
     'commerce_cart',

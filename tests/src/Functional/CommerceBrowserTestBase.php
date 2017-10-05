@@ -39,6 +39,7 @@ abstract class CommerceBrowserTestBase extends BrowserTestBase {
     'commerce',
     'commerce_price',
     'commerce_store',
+    'commerce_multistore',
   ];
 
   /**

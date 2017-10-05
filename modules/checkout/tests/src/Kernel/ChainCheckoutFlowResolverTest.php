@@ -30,6 +30,7 @@ class ChainCheckoutFlowResolverTest extends CommerceKernelTestBase {
     'commerce',
     'commerce_price',
     'commerce_store',
+    'commerce_multistore',
     'commerce_product',
     'commerce_order',
     'commerce_checkout',

@@ -4,4 +4,5 @@ package: Testing
 core: 8.x
 dependencies:
   - commerce_store
+  - commerce_multistore
   - commerce_price
