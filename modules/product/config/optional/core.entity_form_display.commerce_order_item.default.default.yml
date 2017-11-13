@@ -23,11 +23,16 @@ content:
     third_party_settings: {  }
     region: content
   quantity:
-    type: commerce_quantity
+    type: commerce_number
     weight: 1
     settings:
       placeholder: ''
       step: '1'
+      min: '1'
+      max: ''
+      default_value: '1'
+      prefix: ''
+      suffix: ''
     third_party_settings: {  }
     region: content
   unit_price:

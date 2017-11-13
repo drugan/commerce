@@ -19,6 +19,19 @@ content:
     type: commerce_product_variation_attributes
     weight: 0
     settings: { }
+    region: content
+  quantity:
+    type: commerce_number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+      min: '1'
+      max: ''
+      default_value: '1'
+      step: '1'
+      prefix: ''
+      suffix: ''
     third_party_settings: {  }
 hidden:
   created: true
