@@ -3,6 +3,7 @@
 namespace Drupal\commerce_product\Entity;
 
 use Drupal\commerce\Entity\CommerceContentEntityBase;
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -291,6 +292,13 @@ class Product extends CommerceContentEntityBase implements ProductInterface {
   /**
    * {@inheritdoc}
    */
+  public function getCacheContexts() {
+    return Cache::mergeContexts(parent::getCacheContexts(), ['url.query_args:v']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     // Delete the product variations of a deleted product.
     $variations = [];
@@ -345,7 +353,8 @@ class Product extends CommerceContentEntityBase implements ProductInterface {
         'type' => 'string_textfield',
         'weight' => -5,
       ])
-      ->setDisplayConfigurable('form', TRUE);
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     $fields['path'] = BaseFieldDefinition::create('path')
       ->setLabel(t('URL alias'))
@@ -373,12 +382,12 @@ class Product extends CommerceContentEntityBase implements ProductInterface {
       ->setLabel(t('Created'))
       ->setDescription(t('The time when the product was created.'))
       ->setTranslatable(TRUE)
-      ->setDisplayConfigurable('view', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'datetime_timestamp',
         'weight' => 10,
       ])
-      ->setDisplayConfigurable('form', TRUE);
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
